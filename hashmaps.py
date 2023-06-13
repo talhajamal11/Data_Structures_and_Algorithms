@@ -1,6 +1,8 @@
 """
 Dictionaries in Python are Hash Maps
 """
+from array import array
+
 
 # Searching for a number inside an array can be done linearly - this would have a time complexity of O(n)
 # Searching for a number inside an array can be done via an algo like Binary Search which would have a time complexity
@@ -21,7 +23,6 @@ def isNumPresent(num, array):
 array = [5,2,3,1,4]
 
 print("Is number present: {}".format(isNumPresent(-1, array)))
-
 
 def isArraySubset(array1: array, array2: array) -> bool:
     """
@@ -95,3 +96,25 @@ def returnIntersection(array1: array, array2: array) -> array:
 array1 = [1, 2, 4, 2, 5, 9]
 array2 = [1, 9]
 print("Intersection of two arrays: {}".format(returnIntersection(array1, array2)))
+
+
+
+"""
+Write a function that accepts an arrray of strings and returns the first duplicate value it finds.
+Make sure the function has an efficiency of O(N)
+"""
+
+def duplicateString(arr: array) -> any:
+    
+    hashmap = {}
+    for i in arr:
+        try: 
+            if hashmap[i] == True:
+                return i        
+        except:
+            hashmap[i] = True
+
+    return "No duplicate found"
+
+duplicate_array = ["a", "b", "c", "d", "e"]
+print("Looking for Duplicate: {}".format(duplicateString(duplicate_array)))
