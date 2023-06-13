@@ -18,16 +18,22 @@ class Stack:
         pass
 
     def pop(self) -> None:
-        self.stack.pop()
-        pass
+        try:
+            self.stack.pop()
+        except:
+            print("The stack is empty - cannot pop from empty stack")
+        
     
     def read(self) -> any:
         try:
             return self.stack[-1]
         except:
-            print("The stack is empty")    
+            print("The stack is empty")
 
-class Linter:
+    def size(self) -> any:
+        return len(self.stack)    
+
+class Linter(Stack):
     """
     This Class simulates a Linter for code that handles brackets 
     It identifies three errors:
@@ -42,12 +48,107 @@ class Linter:
     If we have reached the end of the program but the stack is not empty -> Error 1 identified
     """
     def __init__(self) -> None:
-
+        self.linter = Stack()
+        self.bracketsDictionary = {
+            ")":"(",
+            "]":"[",
+            "}":"{"
+        }
         pass
 
-if __name__ == '__main__':
-    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/binary_search.py"
-    with open(file_path) as f:
-        code = f.readlines()
+
+    def isOpeningBracket(self, element) -> bool:
+        if element == "(":
+            return True
+        else:
+            return False
+
+    def isOpeningSquareBracket(self, element) -> bool:
+        if element == "[":
+            return True
+        else:
+            return False
     
-    print(code)
+    def isOpeningCurlyBracket(self, element) -> bool:
+        if element == "{":
+            return True
+        else:
+            return False
+        
+    def isClosingBracket(self, element) -> bool:
+        if element == ")":
+            return True
+        else:
+            return False
+
+    def isClosingSquareBracket(self, element) -> bool:
+        if element == "]":
+            return True
+        else:
+            return False
+    
+    def isClosingCurlyBracket(self, element) -> bool:
+        if element == "}":
+            return True
+        else:
+            return False
+        
+    def matchBrackets(self, element:str, comparison:str) -> bool:
+        if self.bracketsDictionary[element] == comparison:
+            return True
+        else:
+            return False
+
+    def identifyError2AndError3(self, element) -> any:
+            comparison = self.linter.pop()
+            try:
+                self.linter.pop()
+                if self.matchBrackets(element, comparison) == True:
+                    pass
+                else:
+                    return "Brackets do not match -> Error 3 identified"
+            except:
+                return "Stack was empty -> Error 2 identified" 
+    
+    def identifyError1(self) -> any:
+        if self.linter.size() != 0:
+            return "Stack is not empty -> Error 1 identified"
+
+    def read_text(self, element) -> any:
+
+        # If element is opening bracket, push it onto the Stack
+        if (self.isOpeningBracket(element) == True):
+            self.linter.push(element)
+        if (self.isOpeningSquareBracket(element) == True):
+            self.linter.push(element)
+        if (self.isOpeningCurlyBracket(element) == True):
+            self.linter.push(element)
+
+
+        # If element is closing bracket, pop the stack and compare the current element with the popped element
+        if (self.isClosingBracket(element) == True):
+            self.identifyError2AndError3(element)
+
+        if (self.isClosingCurlyBracket(element) == True):
+            self.identifyError2AndError3(element)
+            
+        if (self.isClosingSquareBracket(element) == True):
+            self.identifyError2AndError3(element)
+            
+        self.identifyError1()
+
+
+if __name__ == '__main__':
+
+    # Taking another Python File as sample to test Linter
+    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/test.py"
+    with open(file_path, "r") as f:
+        code = f.read()
+        code = code.replace(" ","")
+    
+    #print(code)
+
+    bracket_linter = Linter()
+
+    for character in code:
+        print(bracket_linter.read_text(character))
