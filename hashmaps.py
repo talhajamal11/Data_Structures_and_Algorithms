@@ -23,7 +23,7 @@ def isNumPresent(num, array):
 
 array = [5,2,3,1,4]
 
-print("Is number present: {}".format(isNumPresent(-1, array)))
+print("Chapter Question: Is number present: {}".format(isNumPresent(-1, array)))
 
 def isArraySubset(array1: array, array2: array) -> bool:
     """
@@ -57,7 +57,7 @@ def isArraySubset(array1: array, array2: array) -> bool:
 
 array1 = [1, 2, 4, 2, 5, 9]
 array2 = [10]
-print("If the smaller Array a subset of the Larger Array: {}".format(isArraySubset(array1, array2)))
+print("Chapter Question: If the smaller Array a subset of the Larger Array: {}".format(isArraySubset(array1, array2)))
 
 
 def returnIntersection(array1: array, array2: array) -> array:
@@ -96,7 +96,7 @@ def returnIntersection(array1: array, array2: array) -> array:
 
 array1 = [1, 2, 4, 2, 5, 9]
 array2 = [1, 9]
-print("Intersection of two arrays: {}".format(returnIntersection(array1, array2)))
+print("Exercise Q1: Intersection of two arrays: {}".format(returnIntersection(array1, array2)))
 
 
 
@@ -118,7 +118,7 @@ def duplicateString(arr: array) -> any:
     return "No duplicate found"
 
 duplicate_array = ["a", "b", "c", "d", "e"]
-print("Looking for Duplicate: {}".format(duplicateString(duplicate_array)))
+print("Exercise Q2: Looking for Duplicate: {}".format(duplicateString(duplicate_array)))
 
 
 
@@ -128,12 +128,16 @@ The function should have the time complexity of O(N)
 """
 
 def returnMissingLetter(phrase: str) -> str:
+    # Take input, make it lowercase and strip any spaces
     phrase = phrase.replace(" ", "").lower()
+    # Get a list of all letters in the alphabet
     letters = list(string.ascii_lowercase)
+    # Make Hashmap of the alphabets inside the phrase - this is our Lookup Index
     hashmap = {}
     for alphabet in phrase:
         hashmap[alphabet] = True
 
+    # Compare each letter in the alphabet with the Lookup Index
     for i in letters:
         try: 
             if hashmap[i] == True:
@@ -144,4 +148,34 @@ def returnMissingLetter(phrase: str) -> str:
     return "No letters missing"
 
 test_string = "the quick brown box jumps over a lazy dog"
-print("Testing for Missing Letter: {}".format(returnMissingLetter(test_string)))
+print("Exercise Q3: Testing for Missing Letter: {}".format(returnMissingLetter(test_string)))
+
+
+
+"""
+Write a function that returns the first non-duplicated character in a string.
+The function should have an efficiency of O(N)
+"""
+
+def returnFirstUnique(phrase: str) -> str:
+    # Remove whitespaces and make phrase lowercase
+    phrase = phrase.replace(" ", "").lower()
+    # Create an empty hashmap for lookup index - fill the hashmap with the letters as Keys and the number of times the letter
+    # exists as the value
+    hashmap = {}
+    for letter in phrase:
+        try:
+            if hashmap[letter] == True:
+                hashmap[letter] += 1
+        except:
+            hashmap[letter] = 1
+
+    # Iterate of the phrase and hashmap to find the key value pair with 1 value - return the key
+    for i in range(0, len(phrase)):
+        if hashmap[phrase[i]] == 1:
+            return phrase[i]
+        
+    return "No unique letter"
+
+nonduplicate_phrase = "remember"
+print("Exercise Q4: The First Unique letter in your phrase is: {}".format(returnFirstUnique(nonduplicate_phrase)))
