@@ -2,6 +2,7 @@
 Dictionaries in Python are Hash Maps
 """
 from array import array
+import string
 
 
 # Searching for a number inside an array can be done linearly - this would have a time complexity of O(n)
@@ -118,3 +119,29 @@ def duplicateString(arr: array) -> any:
 
 duplicate_array = ["a", "b", "c", "d", "e"]
 print("Looking for Duplicate: {}".format(duplicateString(duplicate_array)))
+
+
+
+"""
+Write a function that accepts a string that contains all the lettters of the alphabet except one and returns the missing letter.
+The function should have the time complexity of O(N)
+"""
+
+def returnMissingLetter(phrase: str) -> str:
+    phrase = phrase.replace(" ", "").lower()
+    letters = list(string.ascii_lowercase)
+    hashmap = {}
+    for alphabet in phrase:
+        hashmap[alphabet] = True
+
+    for i in letters:
+        try: 
+            if hashmap[i] == True:
+                continue
+        except:
+            return i
+        
+    return "No letters missing"
+
+test_string = "the quick brown box jumps over a lazy dog"
+print("Testing for Missing Letter: {}".format(returnMissingLetter(test_string)))
