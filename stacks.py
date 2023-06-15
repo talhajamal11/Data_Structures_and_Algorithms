@@ -104,7 +104,7 @@ class Linter(Stack):
         if self.linter.size() != 0:
             return "Stack is not empty -> Error 1 is identified \n Error 1: An opening bracket was never followed up with a closing bracket"
         else:
-            return None
+            return "No errors of error type 1"
         
     def error2(self) -> any:
         if (self.linter.size()) == 0:
@@ -117,7 +117,8 @@ class Linter(Stack):
                               comparison=self.linter.pop()) == False:
             return "Brackets do not match -> Error 3 identified \n Error 3: An incorrect bracket being used to close a bracket"
         else:
-            return "Opening and Closing Brackets matched!"
+            #return "Opening and Closing Brackets matched!"
+            return None
     
 
     def read_text(self, element) -> any:
@@ -125,13 +126,17 @@ class Linter(Stack):
         # If element is opening bracket, push it onto the Stack
         if (self.isOpeningBracket(element) == True):
             self.linter.push(element)
-            return "Opening Bracket Found and appended to Stack"
+            #return "Opening Bracket Found and appended to Stack"
+            return 
+        
         if (self.isOpeningSquareBracket(element) == True):
             self.linter.push(element)
-            return "Opening Square Bracket Found and appended to Stack"
+            #return "Opening Square Bracket Found and appended to Stack"
+            return
         if (self.isOpeningCurlyBracket(element) == True):
             self.linter.push(element)
-            return "Opening Curly Bracket Found and appended to Stack"
+            #return "Opening Curly Bracket Found and appended to Stack"
+            return
 
         # If element is closing bracket, pop the stack and compare the current element with the popped element
         if (self.isClosingBracket(element) == True):
@@ -156,9 +161,6 @@ class Linter(Stack):
     def post_reading_text(self):
         return self.error1()
 
-    def main(self, element) -> any:
-        self.read_text(element)
-        self.post_reading_text()
 
 if __name__ == '__main__':
 
@@ -173,7 +175,7 @@ if __name__ == '__main__':
     bracket_linter = Linter()
 
     for character in code:
-        print(bracket_linter.read_text(character))
+        bracket_linter.read_text(character)
         
-    print("Finished reading text")   
+    print("Finished reading file")   
     print(bracket_linter.post_reading_text())
