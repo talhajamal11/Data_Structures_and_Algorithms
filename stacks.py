@@ -51,9 +51,9 @@ class Linter(Stack):
     def __init__(self) -> None:
         self.linter = Stack()
         self.bracketsDictionary = {
-            ")":"(",
-            "]":"[",
-            "}":"{"
+            "(":")",
+            "[":"]",
+            "{":"}"
         }
         pass
 
@@ -94,31 +94,37 @@ class Linter(Stack):
         else:
             return False
         
-    def matchBrackets(self, element:str, comparison:str) -> bool:
-        if self.bracketsDictionary[element] == comparison:
+    def matchBrackets(self, comparison:str, element:str) -> bool:
+        if self.bracketsDictionary[comparison] == element:
             return True
         else:
             return False
 
     def error1(self) -> any:
         if self.linter.size() != 0:
-            return "Stack is not empty -> Error 1 is identified \n Error 1: An opening bracket was never followed up with a closing bracket"
+            print("Stack is not empty -> Error 1 is identified \n Error 1: An opening bracket was never followed up with a closing bracket")
+            return True
         else:
-            return "No errors of error type 1"
+            return False
         
     def error2(self) -> any:
         if (self.linter.size()) == 0:
-            return "Stack is empty -> Error 2 identified \n Error 2: A closing bracket was never preceded by an opening bracket"
+            print("Stack is empty -> Error 2 identified \n Error 2: A closing bracket was never preceded by an opening bracket")
+            return True
         else:
-            return None
+            return False
     
     def error3(self, element) -> any:
+        # No need to check for error 3 if error 2 already exists
+        if (self.linter.size()) == 0:
+            return False
         if self.matchBrackets(element=element, 
                               comparison=self.linter.pop()) == False:
-            return "Brackets do not match -> Error 3 identified \n Error 3: An incorrect bracket being used to close a bracket"
+            print("Brackets do not match -> Error 3 identified \n Error 3: An incorrect bracket being used to close a bracket")
+            return True
         else:
             #return "Opening and Closing Brackets matched!"
-            return None
+            return False
     
 
     def read_text(self, element) -> any:
@@ -128,7 +134,6 @@ class Linter(Stack):
             self.linter.push(element)
             #return "Opening Bracket Found and appended to Stack"
             return 
-        
         if (self.isOpeningSquareBracket(element) == True):
             self.linter.push(element)
             #return "Opening Square Bracket Found and appended to Stack"
@@ -140,23 +145,14 @@ class Linter(Stack):
 
         # If element is closing bracket, pop the stack and compare the current element with the popped element
         if (self.isClosingBracket(element) == True):
-            if self.error2() == None:
-                return self.error3(element)
-            else:
-                return self.error2()
-
-
+            self.error2()
+            self.error3(element)
         if (self.isClosingCurlyBracket(element) == True):
-            if self.error2() == None:
-                return self.error3(element)
-            else:
-                return self.error2()
-            
+            self.error2()
+            self.error3(element) 
         if (self.isClosingSquareBracket(element) == True):
-            if self.error2() == None:
-                return self.error3(element)
-            else:
-                return self.error2()
+            self.error2()
+            self.error3(element)
 
     def post_reading_text(self):
         return self.error1()
@@ -165,17 +161,16 @@ class Linter(Stack):
 if __name__ == '__main__':
 
     # Taking another Python File as sample to test Linter
-    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/testing_linter/error1.py"
+    error = "error2.py"
+    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/testing_linter/{}".format(error)
     with open(file_path, "r") as f:
         code = f.read()
         code = code.replace(" ","")
     
-    #print(code)
-
     bracket_linter = Linter()
 
     for character in code:
         bracket_linter.read_text(character)
         
     print("Finished reading file")   
-    print(bracket_linter.post_reading_text())
+    bracket_linter.post_reading_text()
