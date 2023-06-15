@@ -152,14 +152,18 @@ class Linter(Stack):
                 return self.error3(element)
             else:
                 return self.error2()
-            
+
+    def post_reading_text(self):
         return self.error1()
 
+    def main(self, element) -> any:
+        self.read_text(element)
+        self.post_reading_text()
 
 if __name__ == '__main__':
 
     # Taking another Python File as sample to test Linter
-    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/test.py"
+    file_path = "/Users/talhajamal/Documents/Coding Practice/Data Structures and Algorithms/testing_linter/error1.py"
     with open(file_path, "r") as f:
         code = f.read()
         code = code.replace(" ","")
@@ -170,3 +174,6 @@ if __name__ == '__main__':
 
     for character in code:
         print(bracket_linter.read_text(character))
+        
+    print("Finished reading text")   
+    print(bracket_linter.post_reading_text())
