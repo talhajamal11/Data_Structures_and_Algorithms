@@ -19,16 +19,17 @@ class Stack:
 
     def pop(self) -> None:
         try:
-            self.stack.pop()
+            return self.stack.pop()
         except:
-            print("The stack is empty - cannot pop from empty stack")
+            return "Stack is empty"
+
         
     
     def read(self) -> any:
         try:
             return self.stack[-1]
         except:
-            print("The stack is empty")
+            return "The stack is empty"
 
     def size(self) -> any:
         return len(self.stack)    
@@ -99,43 +100,60 @@ class Linter(Stack):
         else:
             return False
 
-    def identifyError2AndError3(self, element) -> any:
-            comparison = self.linter.pop()
-            try:
-                self.linter.pop()
-                if self.matchBrackets(element, comparison) == True:
-                    pass
-                else:
-                    return "Brackets do not match -> Error 3 identified"
-            except:
-                return "Stack was empty -> Error 2 identified" 
-    
-    def identifyError1(self) -> any:
+    def error1(self) -> any:
         if self.linter.size() != 0:
-            return "Stack is not empty -> Error 1 identified"
+            return "Stack is not empty -> Error 1 is identified \n Error 1: An opening bracket was never followed up with a closing bracket"
+        else:
+            return None
+        
+    def error2(self) -> any:
+        if (self.linter.size()) == 0:
+            return "Stack is empty -> Error 2 identified \n Error 2: A closing bracket was never preceded by an opening bracket"
+        else:
+            return None
+    
+    def error3(self, element) -> any:
+        if self.matchBrackets(element=element, 
+                              comparison=self.linter.pop()) == False:
+            return "Brackets do not match -> Error 3 identified \n Error 3: An incorrect bracket being used to close a bracket"
+        else:
+            return "Opening and Closing Brackets matched!"
+    
 
     def read_text(self, element) -> any:
 
         # If element is opening bracket, push it onto the Stack
         if (self.isOpeningBracket(element) == True):
             self.linter.push(element)
+            return "Opening Bracket Found and appended to Stack"
         if (self.isOpeningSquareBracket(element) == True):
             self.linter.push(element)
+            return "Opening Square Bracket Found and appended to Stack"
         if (self.isOpeningCurlyBracket(element) == True):
             self.linter.push(element)
-
+            return "Opening Curly Bracket Found and appended to Stack"
 
         # If element is closing bracket, pop the stack and compare the current element with the popped element
         if (self.isClosingBracket(element) == True):
-            self.identifyError2AndError3(element)
+            if self.error2() == None:
+                return self.error3(element)
+            else:
+                return self.error2()
+
 
         if (self.isClosingCurlyBracket(element) == True):
-            self.identifyError2AndError3(element)
+            if self.error2() == None:
+                return self.error3(element)
+            else:
+                return self.error2()
             
         if (self.isClosingSquareBracket(element) == True):
-            self.identifyError2AndError3(element)
+            if self.error2() == None:
+                return self.error3(element)
+            else:
+                return self.error2()
             
-        self.identifyError1()
+        return self.error1()
 
 
 if __name__ == '__main__':
