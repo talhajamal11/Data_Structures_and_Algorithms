@@ -1,2 +1,3 @@
-### This is a Repository where I practice the coding knowledge learned from the following Book:
-### A common sense Guide to Data Structures and Algorithms by Jay Wengrow.
+### DSA Exercises from A common sense Guide to Data Structures and Algorithms by Jay Wengrow using Python
+
+ In June 2023 I started reading A common sense Guide to Data Structures and Algorithms by Jay Wengrow. I have found it one of, if not the most useful, book I have read on DSA topics so far. I am practicing the exercises from the book in this repository. If you have any questions about my implementation of the exercises, please let me know. Thanks!
