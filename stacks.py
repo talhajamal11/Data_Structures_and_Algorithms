@@ -158,7 +158,24 @@ class Linter(Stack):
         return self.error1()
 
 
+# Write a function that uses a Stack to reverse a String
+
+def reverseString(string:str) -> str:
+    stack = Stack()
+    reverse = ""
+    for i in string:
+        stack.push(i)
+    for j in range(0, stack.size()):
+        reverse += stack.pop()
+    return reverse
+    
+
+
+
+
 if __name__ == '__main__':
+
+    """
 
     # Taking another Python File as sample to test Linter
     error = "error2.py"
@@ -174,3 +191,9 @@ if __name__ == '__main__':
         
     print("Finished reading file")   
     bracket_linter.post_reading_text()
+
+    """
+
+    string = "captain"
+    print(reverseString(string))
+
